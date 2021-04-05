@@ -26,6 +26,7 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
             "Invalid cast from 'System.String' to 'System.Int32[]'.",
             "The given assembly name or codebase was invalid. (Exception from HRESULT: 0x80131047)",
             "Value was either too large or too small for a Decimal.",
+            "System.IO.InvalidDataException: Found invalid data while decoding",
         };
 
         private static bool isReentrant = false;

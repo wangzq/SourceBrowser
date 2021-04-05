@@ -524,6 +524,18 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
             return properties;
         }
 
+        static readonly string[] MessagesToIgnore = new string[]
+        {
+            "cannot be imported again",
+            "Found project reference without a matching metadata reference",
+            "Could not resolve this reference",
+            "because the file extension '.vcxproj' is not associated with a language",
+            "because the file extension '.sqlproj' is not associated with a language",
+            "No way to resolve conflict between",
+        };
+
+        private static bool ShouldIgnore(string message) => MessagesToIgnore.Any(m => message.IndexOf(m, StringComparison.OrdinalIgnoreCase) >= 0);
+
         private static void WorkspaceFailed(object sender, WorkspaceDiagnosticEventArgs e)
         {
             var message = e.Diagnostic.Message;
@@ -538,6 +550,11 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
             }
 
             if (message.Contains("because the file extension '.shproj'"))
+            {
+                return;
+            }
+
+            if (ShouldIgnore(message))
             {
                 return;
             }
